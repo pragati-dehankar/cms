@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  relationMode = "prisma"
+  provider     = "mongodb"
+  url          = "mongodb+srv://pragatiD:NLq8ZuwlU4i0jLsP@cluster0.ebbyet3.mongodb.net/cms?retryWrites=true&w=majority"
+}
+
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?         @unique
+  emailVerified DateTime?
+  username      String?         @unique @default(nanoid())
+  role          String?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  post          Post[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationRequest {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @id @map("_id")
+  userId               String  @db.ObjectId
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, credentialID])
+}
+
+model Post {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  slug      String     @unique
+  content   String
+  thumbnail String?
+  desc      String?
+  keywords  String?
+  excerpt   String?
+  catSlug   String
+  category  Category?  @relation(fields: [catSlug], references: [slug])
+  createdAt DateTime   @default(now())
+  authorId  String     @db.ObjectId
+  author    User       @relation(fields: [authorId], references: [id])
+  status    PostStatus @default(DRAFT)
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  slug  String @unique
+  posts Post[]
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  DELETED
+  ARCHIVED
+}
