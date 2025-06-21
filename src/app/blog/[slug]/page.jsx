@@ -1,78 +1,75 @@
 import dateFormat from "@/utils/dateFormat";
 import { Calendar } from "lucide-react";
 import Image from "next/image";
+import "../../../styles/blog.css"
 
-export default function SingleBlog() {
-  const tempTags = "SpaceX, Nasa, Exploration";
+const fetchSingleBlog=async(slug)=>{
+  const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/get/${slug}`,{
+    cache: "no-store",
+  });
+  const data=await res.json();
+  console.log(data);
+  return data;
+}
+export async function generateMetaData({params}){
+const res=await fetchSingleBlog(params.slug);
+return{
+  title:res.title,
+  description : res.excerpt,
+  openGraph:{
+    images:[res.thumbnail]
+  }
+}
+}
 
-  const tempHtml = `
-  <p>Demo content </p>
-  <h2>Test h2 </h2>`;
-
+export default async function SingleBlog({params}) {
+  const {slug}=params;
+  const post=await fetchSingleBlog(slug);
+  
   return (
     <section>
       <div className="flex items-center flex-col gap-4 ">
-        <Image
+      {post.thumbnail &&  <Image
           className="rounded border w-[90%] md:w-[700px]"
-          src="/thumbnails/rVn.jpeg"
+          src={post.thumbnail}
           width={500}
           height={250}
-          alt="pge"
-        />
+          alt={post.title}
+          
+        />}
+        <h1 className="text-2xl sm:text-4xl font-bold">{post.title}</h1>
         <div className="meta-of-a-blog space-y-2 ">
           <div className="flex gap-2 items-center ">
             <Calendar className="text-gray-400 size-4" />
             <p className="text-gray-400 text-xs">
-              Created on: {dateFormat(new Date())}
+            Created on: {dateFormat(post.createdAt)}
             </p>
           </div>
-          <div className="text-xs flex items-center gap-2">
+         <div className="text-xs flex items-center gap-2">
             <p>Category:</p>
             <p className="badge border border-gray-700 w-fit px-2 py-1 rounded bg-gray-600/30">
-              Space exploration
+              {post.catSlug}
             </p>
           </div>
-          <div className="text-sm flex items-center gap-2">
+
+           {post?.keywords && <div className="text-sm flex items-center gap-2">
             <p>Tags:</p>
-            {tempTags.split(",").map((tag) => (
+            {post?.keywords.split(",").map((tag) => (
               <p className="badge border border-gray-700 w-fit px-[2px] py-[4px] text-sm rounded bg-gray-600/30">
                 {tag}
               </p>
             ))}
+          </div>}
           </div>
 
-          {/* <div className="content" dangerouslySetInnerHTML={{__html:tempHtml}}>
-       
-      </div> */}
-          
-        </div>
-        <p className="text-sm md:w-2/3 w-[90%] text-gray-300">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-            impedit error nesciunt non explicabo sapiente? Nulla ducimus labore
-            officiis accusantium earum recusandae voluptatem velit aliquid natus
-            odit reprehenderit laborum, quaerat rem iure optio quos ipsam
-            sapiente blanditiis id quis exercitationem sint! Facilis quas animi
-            pariatur fugiat? Tempore, quis quae? Officiis voluptate nam ratione
-            officia consequuntur vero rerum porro maiores<br/> accusamus cum
-            repudiandae tenetur, ipsa, unde veniam hic vitae accusantium, sint
-            ad blanditiis neque laudantium. Libero accusantium aspernatur quam
-            deserunt beatae blanditiis, odio ipsa praesentium labore eum hic
-            quibusdam incidunt rerum reiciendis explicabo dolorum laboriosam.
-            Ducimus iusto cum sint nam blanditiis <br/>quae quibusdam delectus quam
-            laboriosam aspernatur, necessitatibus est odit saepe quod,
-            voluptatem ipsam aliquam repudiandae magni eum hic officiis? Amet
-            optio delectus vitae et exercitationem magni, a, odio magnam,
-            impedit accusantium repellendus nesciunt? Nemo, fugiat neque.
-            Maiores sunt voluptatibus sint<br/> deleniti ipsam aspernatur! Aut, natus
-            dignissimos ipsam recusandae commodi impedit hic voluptatibus, nemo
-            in cumque porro odit aspernatur saepe facilis totam obcaecati,
-            perspiciatis sed sapiente. Explicabo consequuntur natus cupiditate
-            ducimus dolorem maiores hic aut animi in corrupti, expedita iste
-            quas obcaecati? Rem numquam hic magnam dolores veniam adipisci
-            blanditiis omnis in, corporis amet accusamus odio dolorum voluptates
-            vitae quia doloremque.
-          </p>
+          <div
+  className="blogContent text-sm w-[90%] md:w-2/3 text-gray-300"
+  dangerouslySetInnerHTML={{ __html: post.content || "" }}
+/>
+
+
       </div>
+        
     </section>
-  );
-}
+    
+  )}

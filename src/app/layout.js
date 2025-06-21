@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 const poppins=Poppins({
   subsets:['latin'],
-    weight:'400',
+    weight:['400','500','600']
 })
 
 

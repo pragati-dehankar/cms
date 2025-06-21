@@ -14,13 +14,14 @@ import SignOut from "./signout";
 
 export default async function Navbar(){
     const session=await getAuthSession()
+    console.log(session);
     const tempUser={
         name:"pragati",
         username:'pragati'
         }
     // const [isModalOpen,setIsModalOpen]=useState(false);
     return(
-        <div className="w-full flex justify-between px-8 h-12">
+        <div className="w-full flex justify-between items-center px-8 h-12">
             <Link href='/' className="flex gap-2">
             <Anvil/>
           <span className="font-extrabold">CMS</span> 
@@ -37,10 +38,11 @@ export default async function Navbar(){
 const UserModelCompo=({user})=>{
     return (
         <DropdownMenu>
-  <DropdownMenuTrigger>
+  <DropdownMenuTrigger className="outline-none">
     <Image
     className="rounded-full border-2 border-[greenyellow]"
-    src={user.image} width={40} height={40}/>
+    alt=""
+    src={user.image} width={30} height={30}/>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuLabel>Hi, {user.name}</DropdownMenuLabel>
