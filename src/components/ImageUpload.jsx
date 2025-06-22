@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Image from "next/image";
 
-export default function ImageUpload({ returnImage }) {
+export default function ImageUpload({ returnImage,preLoadedImage }) {
   const [imageAsFile, setImageAsFile] = useState();
   const [loading, setLoading] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
@@ -37,6 +38,24 @@ export default function ImageUpload({ returnImage }) {
       setLoading(false);
     }
   };
+
+  if(preLoadedImage){
+    return <div>
+      <label className="w-fit">
+        <span className="bg-gray-500/10 border-2 p-3 rounded border-gray-200 border-dashed">
+          Update Cover Image
+        </span>
+        <input onChange={handleImageAsFile} type="file" hidden />
+      </label>
+      <Image
+              className="border border-gray-400 rounded-md"
+              width={250}
+              height={170}
+              src={preLoadedImage}
+              alt="upload img"
+            />
+    </div>
+  }
 
   return (
     <div className="py-2 flex flex-col gap-5 w-full">

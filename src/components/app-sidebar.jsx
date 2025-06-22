@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Pencil, Search, Settings } from "lucide-react"
+import { Calendar, Home, Inbox, NotebookPen, Pencil, Search, Settings, User } from "lucide-react"
 
 import {
   Sidebar,
@@ -33,7 +33,18 @@ const items = [
     url: "/search",
     icon: Search,
   },
-
+]
+const adminItems = [
+  {
+    title: "All Posts",
+    url: "/posts",
+    icon: NotebookPen,
+  },
+  {
+    title: "All users",
+    url: "/users",
+    icon: User,
+  }
 ]
 
 export function AppSidebar() {
@@ -45,6 +56,23 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Admin</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>

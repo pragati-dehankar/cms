@@ -2,11 +2,15 @@ import dateFormat from "@/utils/dateFormat";
 import { Calendar } from "lucide-react";
 import Image from "next/image";
 import "../../../styles/blog.css"
+import { notFound } from "next/navigation";
 
 const fetchSingleBlog=async(slug)=>{
-  const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/get/${slug}`,{
+  const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/get/${slug}`,{next:{tags:[slug]}},{
     cache: "no-store",
   });
+  if(res.status==404){
+    notFound();
+  }
   const data=await res.json();
   console.log(data);
   return data;
