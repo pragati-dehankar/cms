@@ -5,7 +5,7 @@ generator client {
 datasource db {
   relationMode = "prisma"
   provider     = "mongodb"
-  url          = "mongodb+srv://pragati:dDsGdIRwWt3SRUov@cluster0.ojlnu3r.mongodb.net/cms?retryWrites=true&w=majority&appName=Cluster0"
+  url          = env("DATABASE_URL")
 }
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
