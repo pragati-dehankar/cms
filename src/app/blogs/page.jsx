@@ -37,7 +37,7 @@ export default async function Blogs() {
       {blogData.map((blog, index) => {
         return (
           <BlogCard
-          key={index}
+          key={blog.title}
             title={blog.title}
             excerpt={blog.excerpt}
             image={blog.thumbnail}
