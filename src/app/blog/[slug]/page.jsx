@@ -51,7 +51,8 @@ export default async function SingleBlog({ params }) {
         )}
 
         <h1 className="text-2xl sm:text-4xl font-bold">{post.title}</h1>
-        <BookmarkButton post={post} />
+        {post && <BookmarkButton post={post} />}
+
 
         <div className="meta-of-a-blog space-y-2 ">
           <div className="flex flex-col sm:flex-row gap-3">
