@@ -7,6 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const BookmarkButton = dynamic(() => import("@/components/BookmarkButton"), { ssr: false });
+const CommentSection = dynamic(() => import("@/components/CommentSection"), { ssr: false });
 
 const fetchSingleBlog = async (slug) => {
   const res = await fetch(
@@ -81,6 +82,8 @@ export default async function SingleBlog({ params }) {
               {post.catSlug}
             </p>
           </div>
+          
+
 
           {post?.keywords && (
             <div className="text-sm flex items-center gap-2">
@@ -101,6 +104,8 @@ export default async function SingleBlog({ params }) {
           className="blogContent text-sm w-[90%] md:w-2/3 text-gray-300"
           dangerouslySetInnerHTML={{ __html: post.content || "" }}
         />
+
+<CommentSection slug={post.slug} />
       </div>
     </section>
   );
