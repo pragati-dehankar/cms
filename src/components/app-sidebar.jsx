@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, NotebookPen, Pencil, Search, Settings, User } from "lucide-react"
+import { BookMarkedIcon, Bookmark, BookmarkCheck, BookmarkIcon, Calendar, Home, Inbox, NotebookPen, Pencil, Search, Settings, User } from "lucide-react"
 
 import {
   Sidebar,
@@ -33,6 +33,11 @@ const items = [
     url: "/search",
     icon: Search,
   },
+  {
+    title: "Bookmarks",
+    url: "/bookmarks",
+    icon: BookmarkIcon,
+  },
 ]
 const adminItems = [
   {
@@ -44,7 +49,7 @@ const adminItems = [
     title: "All users",
     url: "/users",
     icon: User,
-  }
+  },
 ]
 
 export function AppSidebar() {

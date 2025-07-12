@@ -109,6 +109,8 @@ model Category {
   posts Post[]
 }
 
+
+
 enum PostStatus {
   DRAFT
   PUBLISHED
