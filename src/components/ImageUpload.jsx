@@ -42,7 +42,7 @@ export default function ImageUpload({ returnImage,preLoadedImage }) {
   if(preLoadedImage){
     return <div>
       <label className="w-fit">
-        <span className="bg-gray-500/10 border-2 p-3 rounded border-gray-200 border-dashed">
+        <span className="bg-gray-500/10 border-2 p-3 rounded border-gray-200 border-dashed ">
           Update Cover Image
         </span>
         <input onChange={handleImageAsFile} type="file" hidden />
@@ -59,7 +59,7 @@ export default function ImageUpload({ returnImage,preLoadedImage }) {
 
   return (
     <div className="py-2 flex flex-col gap-5 w-full">
-      <label className="w-fit">
+      <label className="w-fit cursor-pointer">
         <span className="bg-gray-500/10 border-2 p-3 rounded border-gray-200 border-dashed">
           Upload Cover Image
         </span>
@@ -72,7 +72,7 @@ export default function ImageUpload({ returnImage,preLoadedImage }) {
           <div>
             <h3>Uploaded Successfully!</h3>
             <img
-              className="border border-gray-400 rounded-md"
+              className="border border-gray-400 rounded-md "
               src={imgUrl}
               alt="upload img"
               style={{ width: "30%" }}

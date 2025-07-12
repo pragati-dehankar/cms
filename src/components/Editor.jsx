@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { slugify } from "slugmaster";
 import ImageUpload from "./ImageUpload";
@@ -22,6 +22,9 @@ import {
 import AIcontent from "@/utils/ai-content";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Sparkles } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const ReactQuill=dynamic(import ("react-quill"),{ssr:false})
 
 const schema = z.object({
   title: z
