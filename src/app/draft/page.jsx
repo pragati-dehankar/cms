@@ -5,7 +5,7 @@ export default function Draft(){
     const savePost= async({title,slug, ogImage,content, excerpt, metaDescription,category, keywords,status})=>{
 console.log(slug,'slug');
 console.log(ogImage,'ogImage');
-const res=await fetch('http://localhost:3000/api/v1/create',{
+const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/create`,{
     method:"POST",
     headers:{
         'Content-Type':'application/json',

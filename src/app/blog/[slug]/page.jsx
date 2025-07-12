@@ -28,7 +28,7 @@ export async function generateMetaData({ params }) {
     title: res.title,
     description: res.excerpt,
     openGraph: {
-      images: [`http://localhost:3000/api/og?title=${res.title}`],
+      images: [`${process.env.NEXT_PUBLIC_API_URL}/api/og?title=${res.title}`],
     },
   };
 }

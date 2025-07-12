@@ -10,7 +10,7 @@ export default function EditableBlogCards({post}){
     const [currentStatus,setCurrentStatus]=useState(post.status);
 
     const handleDel=async(id)=>{
-        const res=await fetch(`http://localhost:3000/api/v1/delete/${post.id}`,{
+        const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/delete/${post.id}`,{
             method:"DELETE",
             headers:{
                 'Content-Type':"application/json"
