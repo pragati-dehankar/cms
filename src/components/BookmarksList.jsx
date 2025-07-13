@@ -18,23 +18,27 @@ export default function BookmarksList() {
         <p>No Bookmarked Posts!</p>
       ) : (
         bookmarks.map((post, index) => (
-          <Link
-            key={index}
-            className="flex items-center py-2 w-full mx-auto gap-5 bg-zinc-800/40 rounded px-3 hover:bg-zinc-800/20 transition-all duration-200 hover:scale-[1.03]"
-            href={`/blog/${post.slug}`}
-          >
-            <Image
-              className="w-36 h-20 object-cover rounded"
-              src={post.thumbnail}
-              width={100}
-              height={60}
-              alt={post.title}
-            />
-            <div>
-              <h3 className="text-gray-200 font-bold text-lg">{post.title}</h3>
-              <p className="text-gray-400">{post.excerpt?.substring(0, 30)}...</p>
-            </div>
-          </Link>
+          post.slug && post.title && (
+            <Link
+              key={index}
+              className="flex items-center py-2 w-full mx-auto gap-5 bg-zinc-800/40 rounded px-3 hover:bg-zinc-800/20 transition-all duration-200 hover:scale-[1.03]"
+              href={`/blog/${post.slug}`}
+            >
+              {post.thumbnail && (
+                <Image
+                  className="w-36 h-20 object-cover rounded"
+                  src={post.thumbnail}
+                  width={100}
+                  height={60}
+                  alt={post.title}
+                />
+              )}
+              <div>
+                <h3 className="text-gray-200 font-bold text-lg">{post.title}</h3>
+                <p className="text-gray-400">{post.excerpt?.substring(0, 30)}...</p>
+              </div>
+            </Link>
+          )
         ))
       )}
     </div>
