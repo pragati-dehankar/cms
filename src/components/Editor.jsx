@@ -23,8 +23,9 @@ import AIcontent from "@/utils/ai-content";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
+import ReactQuill from "react-quill";
 
-const ReactQuill=dynamic(()=>import ("react-quill"),{ssr:false})
+// const ReactQuill=dynamic(()=>import ("react-quill"),{ssr:false})
 
 const schema = z.object({
   title: z
@@ -45,7 +46,7 @@ export default function Editor({ onSave, initialData }) {
   const [ogImage, setOgImage] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
-  const [selectionexists,setSelectionexists]=useState(false)
+  const [selectionexists,setSelectionexists]=useState(false);
   const ideaRef=useRef(null);
   const closeDialogRef=useRef(null);
   const quillRef=useRef(null);
@@ -62,8 +63,9 @@ export default function Editor({ onSave, initialData }) {
       setValue("status", initialData.status);
     }
   }, [initialData]);
+  
 
-  const handleForm = (data) => {
+  const handleForm = async(data) => {
     try {
       const generateSlug = initialData ? initialData.slug : slugify(data.title);
       console.log(data);
@@ -244,7 +246,7 @@ export default function Editor({ onSave, initialData }) {
           </button>
         </div>
       </form>
-          {setSelectionexists && <Button className="fixed bottom-10 right-10" variant="outline" onClick={handleRephrase}>Rewrite using AI <Sparkles/></Button>}
+          {selectionexists && <Button className="fixed bottom-10 right-10" variant="outline" onClick={handleRephrase}>Rewrite using AI <Sparkles/></Button>}
     </section>
   );
 }

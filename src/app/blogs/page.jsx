@@ -26,7 +26,10 @@ import Image from "next/image";
 // ];
 
 const fetchAllBlogs = async () => {
-  const res = await fetch(`api/v1/get`, {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_URL ?? "https://postcraft-ten.vercel.app"; // fallback for safety
+
+  const res = await fetch(`${baseUrl}/api/v1/get`, {
     cache: "no-store",
   });
   const data = await res.json();
