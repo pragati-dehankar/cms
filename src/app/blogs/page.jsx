@@ -26,7 +26,7 @@ import Image from "next/image";
 // ];
 
 const fetchAllBlogs = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/get`, {
+  const res = await fetch(`api/v1/get`, {
     cache: "no-store",
   });
   const data = await res.json();
