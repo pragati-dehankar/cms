@@ -23,9 +23,9 @@ import AIcontent from "@/utils/ai-content";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 
-// const ReactQuill=dynamic(()=>import ("react-quill"),{ssr:false})
+const ReactQuill=dynamic(()=>import ("react-quill"),{ssr:false})
 
 const schema = z.object({
   title: z
