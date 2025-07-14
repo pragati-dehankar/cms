@@ -3,8 +3,6 @@ import { toast } from "@/hooks/use-toast";
 import { ShieldAlert } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-// import { toast } from "@/components/ui/use-toast";
-
 
 export default function UserAccessMessage({
   message = "You do not have permission to view this page.",
@@ -33,11 +31,13 @@ export default function UserAccessMessage({
           name: session.user.name,
           email: session.user.email,
           message: `User ${session.user.name} (${session.user.email}) is requesting admin access.`,
+          _captcha: "false",
+          _subject: "Admin Access Request",
         }),
       });
 
       const data = await res.json();
-      if (data.success === "true") {
+      if (data.success === true || data.success === "true") {
         setIsSent(true);
         toast({
           title: "Request Sent",
