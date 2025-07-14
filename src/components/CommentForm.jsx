@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 import { saveComment } from "@/lib/localComments";
+import { useSession } from "next-auth/react";
 
 export default function CommentForm({ slug, onCommentAdded }) {
   const [text, setText] = useState("");
+  const { data: session } = useSession();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,6 +14,8 @@ export default function CommentForm({ slug, onCommentAdded }) {
     const newComment = {
       text,
       createdAt: new Date().toISOString(),
+      user: session?.user?.name || "Anonymous",
+      email: session?.user?.email || null,
     };
 
     saveComment(slug, newComment);

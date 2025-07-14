@@ -11,7 +11,7 @@ export default function CommentSection({ slug }) {
       <h2 className="text-xl font-semibold text-white mb-2">💬 Comments</h2>
       <CommentForm
         slug={slug}
-        onCommentAdded={() => setRefreshKey(prev => prev + 1)}
+        onCommentAdded={() => setRefreshKey((prev) => prev + 1)}
       />
       <CommentList slug={slug} key={refreshKey} />
     </div>

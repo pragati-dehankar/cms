@@ -1,16 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getComments, deleteComment } from "@/lib/localComments";
+import { useSession } from "next-auth/react";
 
 export default function CommentList({ slug }) {
   const [comments, setComments] = useState([]);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setComments(getComments(slug));
   }, [slug]);
 
-  const handleDelete = (index) => {
-    deleteComment(slug, index);
+  const handleDelete = (createdAt) => {
+    deleteComment(slug, createdAt);
     setComments(getComments(slug));
   };
 
@@ -19,20 +21,26 @@ export default function CommentList({ slug }) {
 
   return (
     <ul className="mt-4 space-y-3">
-      {comments.map((c, i) => (
-        <li key={i} className="bg-gray-700 p-3 rounded flex justify-between">
+      {comments.map((c) => (
+        <li
+          key={c.createdAt}
+          className="bg-gray-700 p-3 rounded flex justify-between"
+        >
           <div>
             <p className="text-white">{c.text}</p>
-            <span className="text-xs text-gray-400">
-              {new Date(c.createdAt).toLocaleString()}
-            </span>
+            <div className="flex justify-between mt-1 text-xs text-gray-400">
+              <span>{new Date(c.createdAt).toLocaleString()}</span>
+              <span className="italic">— {c.user}</span>
+            </div>
           </div>
-          <button
-            onClick={() => handleDelete(i)}
-            className="text-red-400 text-xs hover:underline"
-          >
-            Delete
-          </button>
+          {session?.user?.email === c.email && (
+            <button
+              onClick={() => handleDelete(c.createdAt)}
+              className="text-red-400 text-xs hover:underline self-start"
+            >
+              Delete
+            </button>
+          )}
         </li>
       ))}
     </ul>
