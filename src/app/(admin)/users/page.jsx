@@ -7,17 +7,17 @@ import UserAccessDenied from "@/components/UserAccessDenied";
 export default async function AllUsers() {
   const session = await getServerSession(authOptions);
 
-  // If not logged in
-  if (!session || !session.user) {
-    return <UserAccessDenied message="You are not authenticated!" />;
+  if (!session?.user) {
+    // Show login prompt
+    return <UserAccessDenied message="🔒 You must be logged in to access this page." />;
   }
 
-  // If not admin
   const adminCheck = await isAdmin(session);
+
   if (!adminCheck) {
-    return <UserAccessDenied message="You are not authorized to view this page." />;
+    // Show permission error
+    return <UserAccessDenied message="🚫 This section is for admins only." />;
   }
 
-  // If admin
   return <AdminAllUsers />;
 }

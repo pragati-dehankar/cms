@@ -1,4 +1,8 @@
-import { BookMarkedIcon, Bookmark, BookmarkCheck, BookmarkIcon, Calendar, Home, Inbox, NotebookPen, Pencil, Search, Settings, User } from "lucide-react"
+"use client";
+import { useSession } from "next-auth/react";
+import {
+  BookMarkedIcon, BookmarkIcon, Home, Inbox, NotebookPen, Pencil, Search, User
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -9,9 +13,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// Menu items.
 const items = [
   {
     title: "Home",
@@ -33,12 +36,8 @@ const items = [
     url: "/search",
     icon: Search,
   },
-  {
-    title: "Bookmarks",
-    url: "/bookmarks",
-    icon: BookmarkIcon,
-  },
-]
+];
+
 const adminItems = [
   {
     title: "All Posts",
@@ -50,9 +49,11 @@ const adminItems = [
     url: "/users",
     icon: User,
   },
-]
+];
 
 export function AppSidebar() {
+  const { data: session } = useSession();
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -70,11 +71,22 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {session?.user && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a href="/bookmarks">
+                      <BookmarkIcon />
+                      <span>Bookmarks</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
         <SidebarGroup>
-          <SidebarGroupLabel>Admin</SidebarGroupLabel>
+          <SidebarGroupLabel>Creator Tools</SidebarGroupLabel> {/* renamed */}
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
@@ -92,5 +104,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

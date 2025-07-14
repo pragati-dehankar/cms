@@ -10,16 +10,17 @@ export default async function AllPosts({ searchParams }) {
   const category = searchParams.cat || null;
   const session = await getServerSession(authOptions);
 
+  // If not logged in → show login prompt
   if (!session || !session.user) {
-    return <UserAccessDenied />;
+    return <UserAccessDenied message="Please log in to view all posts." />;
   }
 
+  // If admin → show admin view
   const adminCheck = await isAdmin(session);
-  if (!adminCheck) {
-    return (
-      <UserAllPosts page={page} category={category} user={session.user} />
-    );
+  if (adminCheck) {
+    return <AdminAllPosts page={page} category={category} />;
   }
 
-  return <AdminAllPosts page={page} category={category} />;
+  // Otherwise → show user view
+  return <UserAllPosts page={page} category={category} user={session.user} />;
 }
