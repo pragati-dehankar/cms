@@ -6,7 +6,7 @@ import { Layers, Pencil, Zap } from "lucide-react";
 import Link from "next/link";
 
 export default function Landing() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <main className="w-full">
@@ -22,7 +22,8 @@ export default function Landing() {
             </p>
           </div>
           <div className="flex gap-3">
-            {session?.user ? (
+            {/* Only render once status is loaded */}
+            {status === "loading" ? null : session?.user ? (
               <Link
                 href="/dashboard"
                 className="bg-gray-200 text-black px-4 py-1 rounded hover:bg-gray-300 transition-all duration-200 delay-100"
