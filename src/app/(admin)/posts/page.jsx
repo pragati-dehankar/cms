@@ -1,6 +1,6 @@
 import AdminAllPosts from "@/components/admin/admin-all-posts";
-import UserAllPosts from "@/components/admin/user-all-posts";
-import UserAccessDenied from "@/components/UserAccessDenied";
+// import UserAccessDenied from "@/components/UserAccessDenied";
+import UserAccessMessage from "@/components/UserAccessMessage";
 import { authOptions } from "@/lib/auth";
 import isAdmin from "@/utils/isAdmin";
 import { getServerSession } from "next-auth";
@@ -12,15 +12,15 @@ export default async function AllPosts({ searchParams }) {
 
   // If not logged in → show login prompt
   if (!session || !session.user) {
-    return <UserAccessDenied message="Please log in to view all posts." />;
+    return <UserAccessMessage message="Please log in to view all posts." />;
   }
 
-  // If admin → show admin view
+  // If not admin → deny access
   const adminCheck = await isAdmin(session);
-  if (adminCheck) {
-    return <AdminAllPosts page={page} category={category} />;
+  if (!adminCheck) {
+    return <UserAccessMessage message="This page is restricted to Admins only." />;
   }
 
-  // Otherwise → show user view
-  return <UserAllPosts page={page} category={category} user={session.user} />;
+  // If admin → show admin posts
+  return <AdminAllPosts page={page} category={category} />;
 }
