@@ -25,23 +25,37 @@ export default function AuthForm({origin}){
         }
       };
 
-return <div className="w-full sm:w-1/2 md:w-1/5 p-4 rounded-lg mx-4 bg-zinc-800 flex flex-col items-center gap-4">
-<Anvil className="size-12 text-gray-300" />
-<p className="text-center text-sm text-gray-200">
-  {origin=='signup'?"Welcome, by continuing with Sign in  , you\`ll be a bloger":"Welcome back"}
-</p>
-<button
-  className="flex items-center gap-2 bg-gray-800/50 py-2 rounded 
-font-bold text-lg px-10 hover:bg-gray-500/40 transition-colors duration-200 "
-  onClick={onSignIn}
->
-  <Icons.GoogleLogo className="size-7" />{" "}
-  {loading ? "Loading..." : origin==='signup'?'Sign up':'"Sign In"'}
-</button>
-{origin ==="signup"?
-<p className="text-sm text-gray-400 text-center">Already having an account<Link className="underline" href="/sign-in">Sign Up</Link></p>
-:
-<p className="text-sm text-gray-400 ">New to CMS?<Link className="underline" href="/sign-up">Sign Up</Link></p>
-}
-</div>
-}
+      return (
+        <div className="w-full sm:w-[280px] md:w-[300px] bg-zinc-800 rounded-lg p-6 shadow-lg flex flex-col items-center gap-4 text-white">
+          <Anvil className="size-10 text-gray-300" />
+          <p className="text-center text-sm text-gray-300">
+            {origin === "signup"
+              ? "Welcome! Sign up with Google to start your journey as a blogger."
+              : "Welcome back"}
+          </p>
+          <button
+            className="flex items-center gap-3 bg-gray-700 px-6 py-2 rounded-md text-white text-base font-medium hover:bg-gray-600 transition-all duration-200"
+            onClick={onSignIn}
+          >
+            <Icons.GoogleLogo className="size-6" />
+            {loading ? "Loading..." : origin === "signup" ? "Sign up" : 'Sign In'}
+          </button>
+      
+          {origin === "signup" ? (
+            <p className="text-sm text-gray-400 text-center">
+              Already have an account?{" "}
+              <Link className="underline text-blue-400" href="/sign-in">
+                Sign In
+              </Link>
+            </p>
+          ) : (
+            <p className="text-sm text-gray-400 text-center">
+              New to PostCraft?{" "}
+              <Link className="underline text-blue-400" href="/sign-up">
+                Sign Up
+              </Link>
+            </p>
+          )}
+        </div>
+      );
+    }      

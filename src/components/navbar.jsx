@@ -24,7 +24,7 @@ export default async function Navbar(){
         <div className="w-full flex justify-between items-center px-8 h-12">
             <Link href='/' className="flex gap-2">
             <Anvil/>
-          <span className="font-extrabold">CMS</span> 
+          <span className="font-extrabold">PostCraft</span> 
             </Link>
             {session ? 
             <UserModelCompo user={(session?.user)} />
